@@ -24,6 +24,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 
 public class MainActivity extends Activity
         {
@@ -81,6 +84,19 @@ public class MainActivity extends Activity
         startActivity(dinnerIntent);
 
         return dinnerChoice;
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+
+        //Get tracker:
+        Tracker tracker = ((MyApplication) getApplication()).getTracker();
+
+        tracker.setScreenName("My awesome main screen");
+
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+
     }
 }
 
