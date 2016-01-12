@@ -25,6 +25,9 @@ import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 /**
  * Created by jocelyn on 3/12/15.
  */
@@ -54,6 +57,18 @@ public class ShowDinnerActivity extends Activity {
         Intent myIntent = getIntent();
         mDinner = myIntent.getStringExtra(selectedDinnerExtrasKey);
         tv.setText(mDinner);
+
+        onShowDinner(mDinner);
+    }
+
+    private void onShowDinner(String dinner){
+        Tracker tracker = ((MyApplication) getApplication()).getTracker();
+
+        tracker.send(new HitBuilders.EventBuilder()
+            .setCategory("Food")
+            .setAction("Ordered a dinner")
+            .setLabel(dinner)
+            .build());
     }
 
     public void orderOnline (View view) {

@@ -98,5 +98,10 @@ public class MainActivity extends Activity
         tracker.send(new HitBuilders.ScreenViewBuilder().build());
 
     }
+
+    public void showDinnerList(View view){
+
+        startActivity(new Intent(this, ShowAllDinnersActivity.class));
+    }
 }
 

@@ -21,6 +21,12 @@
         android:id="@+id/whats_for_dinner_button"
         android:onClick="showFoodPrefsMenu"/>
 
+    <Button style="@style/button_solid"
+        android:layout_marginTop="30dp"
+        android:text="Show all dinners"
+        android:id="@+id/show_all_dinners_button"
+        android:onClick="showDinnerList"/>
+
 </LinearLayout>
 </ScrollView>
 
