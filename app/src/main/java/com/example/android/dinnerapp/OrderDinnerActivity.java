@@ -108,7 +108,9 @@ public class OrderDinnerActivity extends Activity {
     public void buyDinner(View view){
         Toast.makeText(this, "You just bought a dinner", Toast.LENGTH_SHORT).show();
         buyDinnerBtn.setVisibility(View.INVISIBLE);
-        sendProductActionToAnalytics(new ProductAction(ProductAction.ACTION_PURCHASE), "Checkout");
+        ProductAction productAction = new ProductAction(ProductAction.ACTION_PURCHASE)
+                .setTransactionId(Utility.getUniqueTransactionId(dinnerId));
+        sendProductActionToAnalytics(productAction, "Make me rich, baby");
     }
 
     private void sendProductActionToAnalytics(ProductAction productAction, String actionDescription){
