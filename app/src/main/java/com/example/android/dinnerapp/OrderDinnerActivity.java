@@ -18,7 +18,9 @@ package com.example.android.dinnerapp;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -29,10 +31,13 @@ import com.google.android.gms.analytics.ecommerce.ProductAction;
 public class OrderDinnerActivity extends Activity {
     String selectedDinnerExtrasKey = String.valueOf(R.string.selected_dinner);
 
+    String dinner;
+    String dinnerId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.show_info);
+        setContentView(R.layout.order_dinner);
     }
 
     protected void onStart() {
@@ -49,7 +54,10 @@ public class OrderDinnerActivity extends Activity {
         tv.setText("This is where you will order the selected dinner: \n\n" +
                 dinner);
 
-        sendViewProductHit(dinner, Utility.getDinnerId(dinner));
+        this.dinner = dinner;
+        this.dinnerId = Utility.getDinnerId(dinner);
+
+        sendViewProductHit(dinner, dinnerId);
     }
 
     public void sendViewProductHit(String dinner, String dinnerId){
@@ -65,12 +73,36 @@ public class OrderDinnerActivity extends Activity {
         Tracker tracker = ((MyApplication) getApplication()).getTracker();
 
         tracker.send(new HitBuilders.EventBuilder()
-            .setCategory("Shopping steps")
-            .setAction("View Order Dinncer screen")
-            .setLabel(dinner)
-            .addProduct(product)
-            .setProductAction(action)
-            .build());
+                .setCategory("Shopping steps")
+                .setAction("View Order Dinncer screen")
+                .setLabel(dinner)
+                .addProduct(product)
+                .setProductAction(action)
+                .build());
+    }
+
+    public void addDinnerToCart(View view){
+        Toast.makeText(this, "Added to the cart", Toast.LENGTH_SHORT).show();
+
+        Product product = new Product()
+                .setName("dinner")
+                .setPrice(5)
+                .setVariant(dinner)
+                .setId(dinnerId)
+                .setQuantity(1);
+
+        ProductAction action = new ProductAction(ProductAction.ACTION_ADD);
+
+        Tracker tracker = ((MyApplication) getApplication()).getTracker();
+
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Shopping steps")
+                .setAction("View Order Dinncer screen")
+                .setLabel("some product")
+                .addProduct(product)
+                .setProductAction(action)
+                .build());
+
     }
 
 }
