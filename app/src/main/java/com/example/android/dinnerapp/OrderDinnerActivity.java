@@ -92,7 +92,7 @@ public class OrderDinnerActivity extends Activity {
         Toast.makeText(this, "Added to the cart", Toast.LENGTH_SHORT).show();
         checkoutDinnerBtn.setVisibility(View.VISIBLE);
         addDinnerToCartBtn.setVisibility(View.INVISIBLE);
-        sendProductActionToAnalytics(new ProductAction(ProductAction.ACTION_ADD));
+        sendProductActionToAnalytics(new ProductAction(ProductAction.ACTION_ADD), "Add dinner to cart");
 
     }
 
@@ -100,10 +100,10 @@ public class OrderDinnerActivity extends Activity {
         Toast.makeText(this, "Checked out!", Toast.LENGTH_SHORT).show();
         checkoutDinnerBtn.setVisibility(View.INVISIBLE);
         addDinnerToCartBtn.setVisibility(View.VISIBLE);
-        sendProductActionToAnalytics(new ProductAction(ProductAction.ACTION_CHECKOUT));
+        sendProductActionToAnalytics(new ProductAction(ProductAction.ACTION_CHECKOUT), "Checkout");
     }
 
-    private void sendProductActionToAnalytics(ProductAction productAction){
+    private void sendProductActionToAnalytics(ProductAction productAction, String actionDescription){
         Product product = new Product()
                 .setName("dinner")
                 .setPrice(5)
@@ -115,7 +115,7 @@ public class OrderDinnerActivity extends Activity {
 
         tracker.send(new HitBuilders.EventBuilder()
                 .setCategory("Shopping steps")
-                .setAction("View Order Dinncer screen")
+                .setAction(actionDescription)
                 .setLabel("some product")
                 .addProduct(product)
                 .setProductAction(productAction)
