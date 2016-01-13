@@ -37,6 +37,7 @@ public class ShowAllDinnersActivity extends ListActivity {
         Toast.makeText(this, "selected dinner: " + value, Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(this, OrderDinnerActivity.class);
+        intent.putExtra(String.valueOf(R.string.selected_dinner), value);
 
         startActivity(intent);
     }
