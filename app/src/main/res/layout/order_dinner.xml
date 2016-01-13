@@ -25,6 +25,11 @@
             android:text="Checkout"
             android:visibility="invisible"
             android:onClick="checkoutDinner"/>
+        <Button style="@style/button_solid"
+            android:id="@+id/buyDinnerButton"
+            android:text="Checkout"
+            android:visibility="invisible"
+            android:onClick="buyDinner"/>
     </LinearLayout>
 
 </ScrollView>

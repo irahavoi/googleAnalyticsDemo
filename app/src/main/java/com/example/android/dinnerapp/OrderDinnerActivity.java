@@ -37,6 +37,7 @@ public class OrderDinnerActivity extends Activity {
 
     Button addDinnerToCartBtn;
     Button checkoutDinnerBtn;
+    Button buyDinnerBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public class OrderDinnerActivity extends Activity {
 
         addDinnerToCartBtn = (Button) findViewById(R.id.addDinnerToCartButton);
         checkoutDinnerBtn = (Button) findViewById(R.id.checkoutDinnerButton);
+        buyDinnerBtn = (Button) findViewById(R.id.buyDinnerButton);
 
         sendViewProductHit(dinner, dinnerId);
     }
@@ -99,8 +101,14 @@ public class OrderDinnerActivity extends Activity {
     public void checkoutDinner(View view){
         Toast.makeText(this, "Checked out!", Toast.LENGTH_SHORT).show();
         checkoutDinnerBtn.setVisibility(View.INVISIBLE);
-        addDinnerToCartBtn.setVisibility(View.VISIBLE);
+        buyDinnerBtn.setVisibility(View.VISIBLE);
         sendProductActionToAnalytics(new ProductAction(ProductAction.ACTION_CHECKOUT), "Checkout");
+    }
+
+    public void buyDinner(View view){
+        Toast.makeText(this, "You just bought a dinner", Toast.LENGTH_SHORT).show();
+        buyDinnerBtn.setVisibility(View.INVISIBLE);
+        sendProductActionToAnalytics(new ProductAction(ProductAction.ACTION_PURCHASE), "Checkout");
     }
 
     private void sendProductActionToAnalytics(ProductAction productAction, String actionDescription){
