@@ -10,12 +10,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 public class ShowAllDinnersActivity extends ListActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_all_dinners);
+
+        long startTime = System.nanoTime();
 
         Dinner dinner = new Dinner();
         String [] allDinners = dinner.getAllDinners(this);
@@ -25,6 +30,24 @@ public class ShowAllDinnersActivity extends ListActivity {
 
         ListView listView = (ListView) findViewById(android.R.id.list);
         listView.setAdapter(adapter);
+
+        long stopTime = System.nanoTime();
+
+        long elapsedTime = (stopTime = startTime) / 1000000;
+
+        setAnalyticsTimingHit(elapsedTime);
+    }
+
+    private void setAnalyticsTimingHit(long elapsedTime){
+        Tracker tracker = ((MyApplication) getApplication()).getTracker();
+
+        tracker.send(new HitBuilders.TimingBuilder()
+            .setCategory("List all dinners")
+            .setValue(elapsedTime)
+            .setLabel("display duration")
+            .setVariable("duration")
+            .build());
+
     }
 
     @Override
