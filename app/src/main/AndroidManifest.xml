@@ -64,6 +64,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.dinnerapp.MainActivity" />
         </activity>
+        <activity
+            android:name=".ShowDailySpecialActivity"
+            android:label="@string/title_activity_show_daily_special" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.dinnerapp.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

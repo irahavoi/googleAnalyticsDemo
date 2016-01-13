@@ -103,5 +103,9 @@ public class MainActivity extends Activity
 
         startActivity(new Intent(this, ShowAllDinnersActivity.class));
     }
+
+    public void showDailySpecial(View view){
+        startActivity(new Intent(this, ShowDailySpecialActivity.class));
+    }
 }
 
