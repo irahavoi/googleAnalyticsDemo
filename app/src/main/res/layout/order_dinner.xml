@@ -17,8 +17,14 @@
             tools:layout="@layout/show_info">
         </fragment>
         <Button style="@style/button_solid"
+            android:id="@+id/addDinnerToCartButton"
             android:text="Add to Cart"
             android:onClick="addDinnerToCart"/>
+        <Button style="@style/button_solid"
+            android:id="@+id/checkoutDinnerButton"
+            android:text="Checkout"
+            android:visibility="invisible"
+            android:onClick="checkoutDinner"/>
     </LinearLayout>
 
 </ScrollView>

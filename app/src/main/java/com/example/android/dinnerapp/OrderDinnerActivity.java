@@ -19,6 +19,7 @@ package com.example.android.dinnerapp;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,9 @@ public class OrderDinnerActivity extends Activity {
 
     String dinner;
     String dinnerId;
+
+    Button addDinnerToCartBtn;
+    Button checkoutDinnerBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,9 @@ public class OrderDinnerActivity extends Activity {
         this.dinner = dinner;
         this.dinnerId = Utility.getDinnerId(dinner);
 
+        addDinnerToCartBtn = (Button) findViewById(R.id.addDinnerToCartButton);
+        checkoutDinnerBtn = (Button) findViewById(R.id.checkoutDinnerButton);
+
         sendViewProductHit(dinner, dinnerId);
     }
 
@@ -74,7 +81,7 @@ public class OrderDinnerActivity extends Activity {
 
         tracker.send(new HitBuilders.EventBuilder()
                 .setCategory("Shopping steps")
-                .setAction("View Order Dinncer screen")
+                .setAction("View Order Dinner screen")
                 .setLabel(dinner)
                 .addProduct(product)
                 .setProductAction(action)
@@ -83,15 +90,26 @@ public class OrderDinnerActivity extends Activity {
 
     public void addDinnerToCart(View view){
         Toast.makeText(this, "Added to the cart", Toast.LENGTH_SHORT).show();
+        checkoutDinnerBtn.setVisibility(View.VISIBLE);
+        addDinnerToCartBtn.setVisibility(View.INVISIBLE);
+        sendProductActionToAnalytics(new ProductAction(ProductAction.ACTION_ADD));
 
+    }
+
+    public void checkoutDinner(View view){
+        Toast.makeText(this, "Checked out!", Toast.LENGTH_SHORT).show();
+        checkoutDinnerBtn.setVisibility(View.INVISIBLE);
+        addDinnerToCartBtn.setVisibility(View.VISIBLE);
+        sendProductActionToAnalytics(new ProductAction(ProductAction.ACTION_CHECKOUT));
+    }
+
+    private void sendProductActionToAnalytics(ProductAction productAction){
         Product product = new Product()
                 .setName("dinner")
                 .setPrice(5)
                 .setVariant(dinner)
                 .setId(dinnerId)
                 .setQuantity(1);
-
-        ProductAction action = new ProductAction(ProductAction.ACTION_ADD);
 
         Tracker tracker = ((MyApplication) getApplication()).getTracker();
 
@@ -100,9 +118,8 @@ public class OrderDinnerActivity extends Activity {
                 .setAction("View Order Dinncer screen")
                 .setLabel("some product")
                 .addProduct(product)
-                .setProductAction(action)
+                .setProductAction(productAction)
                 .build());
-
     }
 
 }
