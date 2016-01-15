@@ -26,10 +26,16 @@ import android.widget.PopupMenu;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.tagmanager.ContainerHolder;
+import com.google.android.gms.tagmanager.TagManager;
+
+import java.util.concurrent.TimeUnit;
 
 
-public class MainActivity extends Activity
-        {
+public class MainActivity extends Activity {
+    private TagManager mTagManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,9 @@ public class MainActivity extends Activity
 
         // Make sure that Analytics tracking has started
         ((MyApplication)getApplication()).startTracking();
+
+        //Load Google Tag Manager Container.
+        loadGTMContainer();
     }
 
     /*
@@ -106,6 +115,29 @@ public class MainActivity extends Activity
 
     public void showDailySpecial(View view){
         startActivity(new Intent(this, ShowDailySpecialActivity.class));
+    }
+
+    private void loadGTMContainer(){
+        mTagManager = ((MyApplication) getApplication()).getTagManager();
+
+        mTagManager.setVerboseLoggingEnabled(true);
+
+        PendingResult pending = mTagManager.loadContainerPreferFresh("GTM-WCBV9H", R.raw.tag_manager_container);
+
+        pending.setResultCallback(new ResultCallback<ContainerHolder>() {
+            @Override
+            public void onResult(ContainerHolder containerHolder) {
+                //Do not do anything if not successful
+                if(!containerHolder.getStatus().isSuccess()){
+                    return;
+                }
+
+                containerHolder.refresh();
+
+                ((MyApplication) getApplication()).setContainerHolder(containerHolder);
+            }
+        }, 2, TimeUnit.SECONDS);
+
     }
 }
 

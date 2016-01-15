@@ -18,8 +18,8 @@
         </fragment>
         <Button style="@style/button_solid"
             android:id="@+id/addDinnerToCartButton"
-            android:text="Add to Cart"
-            android:onClick="addDinnerToCart"/>
+            android:text="Update daily special"
+            android:onClick="updateDailySpecial"/>
     </LinearLayout>
 
 </ScrollView>

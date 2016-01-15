@@ -5,12 +5,19 @@ import android.app.Application;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Logger;
 import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.tagmanager.ContainerHolder;
+import com.google.android.gms.tagmanager.TagManager;
 
 /**
  * Created by irahavoi on 2016-01-10.
  */
 public class MyApplication extends Application{
-    public Tracker mTracker;
+    private Tracker mTracker;
+
+    private ContainerHolder mContainerHolder;
+    private TagManager mTagManager;
+
+
     public void startTracking(){
         if(mTracker == null){
             GoogleAnalytics ga = GoogleAnalytics.getInstance(this);
@@ -28,5 +35,21 @@ public class MyApplication extends Application{
     public Tracker getTracker(){
         startTracking();
         return mTracker;
+    }
+
+    public TagManager getTagManager(){
+        if(mTagManager == null){
+            mTagManager = TagManager.getInstance(this);
+        }
+
+        return mTagManager;
+    }
+
+    public ContainerHolder getContainerHolder() {
+        return mContainerHolder;
+    }
+
+    public void setContainerHolder(ContainerHolder mContainerHolder) {
+        this.mContainerHolder = mContainerHolder;
     }
 }

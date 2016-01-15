@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+
+import com.google.android.gms.tagmanager.ContainerHolder;
 
 public class ShowDailySpecialActivity extends Activity {
 
@@ -33,5 +37,13 @@ public class ShowDailySpecialActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void updateDailySpecial(View view){
+        ContainerHolder containerHolder = ((MyApplication) getApplication()).getContainerHolder();
+        String dailySpecial = containerHolder.getContainer().getString("daily-special");
+
+        TextView dailySpecialText = (TextView) findViewById(R.id.textView_info);
+        dailySpecialText.setText(dailySpecial);
     }
 }
