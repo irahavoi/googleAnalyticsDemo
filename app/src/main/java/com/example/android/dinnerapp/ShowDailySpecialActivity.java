@@ -15,6 +15,11 @@ public class ShowDailySpecialActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.daily_special);
+
+        ContainerHolder containerHolder = ((MyApplication) getApplication()).getContainerHolder();
+        String dailySpecial = containerHolder.getContainer().getString("daily-special");
+
+        ((TextView) findViewById(R.id.textView_info)).setText(dailySpecial);
     }
 
     @Override
