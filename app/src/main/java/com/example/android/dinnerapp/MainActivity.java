@@ -114,7 +114,30 @@ public class MainActivity extends Activity {
     }
 
     public void showDailySpecial(View view){
-        startActivity(new Intent(this, ShowDailySpecialActivity.class));
+        // Utility.showMyToast("I will show you a menu", this);
+        android.widget.PopupMenu popup = new android.widget.PopupMenu(this, view);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.food_prefs_menu, popup.getMenu());
+
+        // Set the action of the menu
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+
+                putFoodPrefInDataLayer(item);
+                startActivity(new Intent(MainActivity.this, ShowDailySpecialActivity.class));
+                return true;
+            }
+
+            public void putFoodPrefInDataLayer(MenuItem menuItem){
+                TagManager tm = ((MyApplication) getApplication()).getTagManager();
+                //TODO: replace it with a method that returns a value depending on selected menu item:
+                tm.getDataLayer().push("food_pref", "fish"); //for now, no matter what user wants, he gotta eat fish.
+            }
+        });
+        // Show the popup menu
+        popup.show();
     }
 
     private void loadGTMContainer(){
