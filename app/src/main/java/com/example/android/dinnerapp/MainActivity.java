@@ -29,6 +29,7 @@ import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.tagmanager.ContainerHolder;
+import com.google.android.gms.tagmanager.DataLayer;
 import com.google.android.gms.tagmanager.TagManager;
 
 import java.util.concurrent.TimeUnit;
@@ -126,7 +127,7 @@ public class MainActivity extends Activity {
 
 
                 putFoodPrefInDataLayer(item);
-                startActivity(new Intent(MainActivity.this, ShowDailySpecialActivity.class));
+                startShowDailySpecialActivity();
                 return true;
             }
 
@@ -138,6 +139,14 @@ public class MainActivity extends Activity {
         });
         // Show the popup menu
         popup.show();
+    }
+
+    public void startShowDailySpecialActivity(){
+        startActivity(new Intent(MainActivity.this, ShowDailySpecialActivity.class));
+
+        DataLayer dl = mTagManager.getDataLayer();
+
+        dl.pushEvent("openScreen", DataLayer.mapOf("screen-name", "Show daily special"));
     }
 
     private void loadGTMContainer(){
